@@ -11,6 +11,7 @@ using Dos.ORM;
 using Dos.ORM.Common;
 using RazorEngine;
 using RazorEngine.Templating;
+using System.Text.RegularExpressions;
 
 namespace Dos.Tools
 {
@@ -32,7 +33,7 @@ namespace Dos.Tools
         public EntityBuilder(string tableName, string nameSpace, string className, List<Model.ColumnInfo> columns, bool isView)
             : this(tableName, nameSpace, className, columns, isView, false)
         {
-
+            
         }
 
         public EntityBuilder(string tableName, string nameSpace, string className, List<Model.ColumnInfo> columns, bool isView, bool isSZMDX, string dbType = null)
@@ -107,7 +108,7 @@ namespace Dos.Tools
         /// </summary>
         /// <param name="tplContent">模板文件的内容</param>
         /// <returns></returns>
-        public string Builder(string tplContent)
+        public string Builder(string tplContent,string keyName)
         {
             Columns = DbToCS.DbtoCSColumns(Columns, DbType);
             if (!string.IsNullOrWhiteSpace(tplContent))
@@ -127,7 +128,15 @@ namespace Dos.Tools
                 //plus.AppendLine("// </auto-generated>");
                 //plus.AppendLine("//------------------------------------------------------------------------------");
                 //plus.AppendLine();
-                var result = Razor.Parse(tplContent, new
+                Columns.ForEach(v => {
+                    var coll = Regex.Matches(v.ColumnName, "[A-Z]{1,}[0-9a-z]*");
+                    foreach (Match item in coll)
+                    {
+                        v.ColumnName2 +=(item.Index > 0?"_":"") + item.Value.ToLower();
+                        v.ColumnName3 +=(item.Index > 0?"-":"") + item.Value.ToLower();
+                    }
+                });
+                var result = Engine.Razor.RunCompile(tplContent,DateTime.Now.ToString("yyMMddHHmmss"),null, new
                 {
                     ClassName = ClassName,
                     TableName = TableName,
@@ -144,6 +153,9 @@ namespace Dos.Tools
             }
             return "请使用模板生成方式";
         }
+
+        delegate Regex CRegeg(string name);
+        delegate List<string> CList(MatchCollection coll);
 
         private string BuilderModel()
         {

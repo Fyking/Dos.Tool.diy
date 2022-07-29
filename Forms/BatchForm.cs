@@ -307,7 +307,7 @@ namespace Dos.Tools
                     false,
                     Encoding.UTF8))
                 {
-                    sw.Write(builder.Builder(TplContent));
+                    sw.Write(builder.Builder(TplContent, tplComboBox.SelectedItem.ToString()));
                     sw.Close();
                 }
 

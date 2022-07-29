@@ -217,7 +217,7 @@ namespace Dos.Tools
 
             EntityBuilder builder = new EntityBuilder(TableName, txtnamespace.Text, txtClassName.Text, columns, IsView, cbToupperFrstword.Checked, ConnectionModel.DbType);
 
-            txtContent.Text = builder.Builder(tplContent.Text);
+            txtContent.Text = builder.Builder(tplContent.Text, tplComboBox.SelectedItem.ToString());
 
             tabControl1.SelectedIndex = 1;
         }

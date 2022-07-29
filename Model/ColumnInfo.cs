@@ -15,6 +15,8 @@
         private string _preci;
         private string _scale;
         private string _typeName;
+        public string ColumnName2 { get; set; }
+        public string ColumnName3 { get; set; }
 
         public bool cisNull
         {
