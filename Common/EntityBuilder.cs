@@ -132,8 +132,8 @@ namespace Dos.Tools
                     var coll = Regex.Matches(v.ColumnName, "[A-Z]{1,}[0-9a-z]*");
                     foreach (Match item in coll)
                     {
-                        v.ColumnName2 +=(item.Index > 0?"_":"") + item.Value.ToLower();
-                        v.ColumnName3 +=(item.Index > 0?"-":"") + item.Value.ToLower();
+                        v.ColumnName2 +=(item.Index > 0?"_":"") + item.Value;
+                        v.ColumnName3 +=(item.Index > 0?"-":"") + item.Value;
                     }
                 });
                 var result = Engine.Razor.RunCompile(tplContent,DateTime.Now.ToString("yyMMddHHmmss"),null, new
