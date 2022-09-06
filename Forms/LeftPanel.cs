@@ -12,6 +12,7 @@ namespace Dos.Tools
 {
     public partial class LeftPanel : WeifenLuo.WinFormsUI.Docking.DockContent
     {
+        public static DataTable mDataTable = null;
         public LeftPanel()
         {
             InitializeComponent();
@@ -234,8 +235,6 @@ namespace Dos.Tools
                 tnode.ContextMenuStrip = contextMenuStripOneDataBase;
                 node.Nodes.Add(tnode);
 
-
-
                 gettables(tnode, dbObject.GetTables(""), dbObject.GetVIEWs(""));
 
 
@@ -330,6 +329,7 @@ namespace Dos.Tools
 
         private void gettables(TreeNode databaseNodel, DataTable tables, DataTable views)
         {
+            mDataTable = tables;
             TreeNode tableNode = new TreeNode("表", 2, 3);
             tableNode.Tag = "表";
             if (null != tables && tables.Rows.Count > 0)
@@ -447,6 +447,7 @@ namespace Dos.Tools
 
         private void tview_DoubleClick(object sender, EventArgs e)
         {
+            if (tview.SelectedNode.Tag == null) return;
             if (tview.SelectedNode.Tag.ToString() == "T" || tview.SelectedNode.Tag.ToString() == "V")
             {
                 生成代码ToolStripMenuItem_Click(null, null);

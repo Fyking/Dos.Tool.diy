@@ -33,7 +33,7 @@ namespace Dos.Tools
         public EntityBuilder(string tableName, string nameSpace, string className, List<Model.ColumnInfo> columns, bool isView)
             : this(tableName, nameSpace, className, columns, isView, false)
         {
-            
+
         }
 
         public EntityBuilder(string tableName, string nameSpace, string className, List<Model.ColumnInfo> columns, bool isView, bool isSZMDX, string dbType = null)
@@ -108,7 +108,7 @@ namespace Dos.Tools
         /// </summary>
         /// <param name="tplContent">模板文件的内容</param>
         /// <returns></returns>
-        public string Builder(string tplContent,string keyName)
+        public string Builder(string tplContent, string keyName = "")
         {
             Columns = DbToCS.DbtoCSColumns(Columns, DbType);
             if (!string.IsNullOrWhiteSpace(tplContent))
@@ -128,17 +128,19 @@ namespace Dos.Tools
                 //plus.AppendLine("// </auto-generated>");
                 //plus.AppendLine("//------------------------------------------------------------------------------");
                 //plus.AppendLine();
-                Columns.ForEach(v => {
+                Columns.ForEach(v =>
+                {
+                    v.ColumnName2 = ""; v.ColumnName3 = "";
                     var coll = Regex.Matches(v.ColumnName, "[A-Z]{1,}[0-9a-z]*");
                     foreach (Match item in coll)
                     {
-                        v.ColumnName2 +=(item.Index > 0?"_":"") + item.Value;
-                        v.ColumnName3 +=(item.Index > 0?"-":"") + item.Value;
+                        v.ColumnName2 += (item.Index > 0 ? "_" : "") + item.Value;
+                        v.ColumnName3 += (item.Index > 0 ? "-" : "") + item.Value;
                     }
                 });
-                var result = Engine.Razor.RunCompile(tplContent,DateTime.Now.ToString("yyMMddHHmmss"),null, new
+                var result = Engine.Razor.RunCompile(tplContent, DateTime.Now.ToString("yyMMddHHmmssfff"), null, new
                 {
-                    ClassName = ClassName,
+                    ClassName = $"{ClassName}{keyName}",
                     TableName = TableName,
                     Columns = Columns,
                     NameSpace = NameSpace,
