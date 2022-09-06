@@ -6,3 +6,4 @@ obj/
 *.nuspec.txt
 *.nuspec
 NuGet.exe
+/packages
