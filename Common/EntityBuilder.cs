@@ -140,7 +140,7 @@ namespace Dos.Tools
                 });
                 var result = Engine.Razor.RunCompile(tplContent, DateTime.Now.ToString("yyMMddHHmmssfff"), null, new
                 {
-                    ClassName = $"{ClassName}{keyName}",
+                    ClassName = $"{(string.IsNullOrEmpty(keyName) ? ClassName : keyName)}",
                     TableName = TableName,
                     Columns = Columns,
                     NameSpace = NameSpace,

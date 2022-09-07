@@ -36,6 +36,7 @@
             this.contextMenuStripSave = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbAllTemp = new System.Windows.Forms.CheckBox();
             this.btnCode = new System.Windows.Forms.Button();
             this.btnSql = new System.Windows.Forms.Button();
             this.tplComboBox = new System.Windows.Forms.ComboBox();
@@ -54,7 +55,7 @@
             this.txtContent = new System.Windows.Forms.RichTextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveEntity = new System.Windows.Forms.SaveFileDialog();
-            this.cbAllTemp = new System.Windows.Forms.CheckBox();
+            this.cbClearFix = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tp1.SuspendLayout();
             this.contextMenuStripSave.SuspendLayout();
@@ -74,7 +75,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(890, 665);
+            this.tabControl1.Size = new System.Drawing.Size(1027, 665);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -87,7 +88,7 @@
             this.tp1.Location = new System.Drawing.Point(4, 4);
             this.tp1.Name = "tp1";
             this.tp1.Padding = new System.Windows.Forms.Padding(3);
-            this.tp1.Size = new System.Drawing.Size(882, 638);
+            this.tp1.Size = new System.Drawing.Size(1019, 638);
             this.tp1.TabIndex = 0;
             this.tp1.Text = "生成设置";
             this.tp1.UseVisualStyleBackColor = true;
@@ -99,7 +100,7 @@
             this.tplContent.Location = new System.Drawing.Point(3, 325);
             this.tplContent.Margin = new System.Windows.Forms.Padding(0);
             this.tplContent.Name = "tplContent";
-            this.tplContent.Size = new System.Drawing.Size(876, 310);
+            this.tplContent.Size = new System.Drawing.Size(1013, 310);
             this.tplContent.TabIndex = 8;
             this.tplContent.Text = "";
             // 
@@ -120,6 +121,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbClearFix);
             this.groupBox1.Controls.Add(this.cbAllTemp);
             this.groupBox1.Controls.Add(this.btnCode);
             this.groupBox1.Controls.Add(this.btnSql);
@@ -137,14 +139,25 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(3, 225);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(876, 100);
+            this.groupBox1.Size = new System.Drawing.Size(1013, 100);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "生成配置";
             // 
+            // cbAllTemp
+            // 
+            this.cbAllTemp.AutoSize = true;
+            this.cbAllTemp.Location = new System.Drawing.Point(611, 64);
+            this.cbAllTemp.Name = "cbAllTemp";
+            this.cbAllTemp.Size = new System.Drawing.Size(72, 16);
+            this.cbAllTemp.TabIndex = 12;
+            this.cbAllTemp.Text = "所有模板";
+            this.cbAllTemp.UseVisualStyleBackColor = true;
+            this.cbAllTemp.CheckedChanged += new System.EventHandler(this.cbAllTemp_CheckedChanged);
+            // 
             // btnCode
             // 
-            this.btnCode.Location = new System.Drawing.Point(738, 60);
+            this.btnCode.Location = new System.Drawing.Point(777, 24);
             this.btnCode.Name = "btnCode";
             this.btnCode.Size = new System.Drawing.Size(78, 23);
             this.btnCode.TabIndex = 11;
@@ -154,7 +167,7 @@
             // 
             // btnSql
             // 
-            this.btnSql.Location = new System.Drawing.Point(738, 24);
+            this.btnSql.Location = new System.Drawing.Point(693, 24);
             this.btnSql.Name = "btnSql";
             this.btnSql.Size = new System.Drawing.Size(78, 23);
             this.btnSql.TabIndex = 10;
@@ -168,7 +181,7 @@
             this.tplComboBox.FormattingEnabled = true;
             this.tplComboBox.Location = new System.Drawing.Point(78, 26);
             this.tplComboBox.Name = "tplComboBox";
-            this.tplComboBox.Size = new System.Drawing.Size(209, 20);
+            this.tplComboBox.Size = new System.Drawing.Size(197, 20);
             this.tplComboBox.TabIndex = 9;
             this.tplComboBox.SelectedIndexChanged += new System.EventHandler(this.tplComboBox_SelectedIndexChanged);
             // 
@@ -184,16 +197,17 @@
             // cbToupperFrstword
             // 
             this.cbToupperFrstword.AutoSize = true;
-            this.cbToupperFrstword.Location = new System.Drawing.Point(549, 66);
+            this.cbToupperFrstword.Location = new System.Drawing.Point(518, 65);
             this.cbToupperFrstword.Name = "cbToupperFrstword";
             this.cbToupperFrstword.Size = new System.Drawing.Size(84, 16);
             this.cbToupperFrstword.TabIndex = 6;
             this.cbToupperFrstword.Text = "首字母大写";
             this.cbToupperFrstword.UseVisualStyleBackColor = true;
+            this.cbToupperFrstword.CheckedChanged += new System.EventHandler(this.cbToupperFrstword_CheckedChanged);
             // 
             // btnRemovePrimarykey
             // 
-            this.btnRemovePrimarykey.Location = new System.Drawing.Point(642, 24);
+            this.btnRemovePrimarykey.Location = new System.Drawing.Point(608, 24);
             this.btnRemovePrimarykey.Name = "btnRemovePrimarykey";
             this.btnRemovePrimarykey.Size = new System.Drawing.Size(75, 23);
             this.btnRemovePrimarykey.TabIndex = 3;
@@ -203,7 +217,7 @@
             // 
             // btnAddPrimarykey
             // 
-            this.btnAddPrimarykey.Location = new System.Drawing.Point(549, 24);
+            this.btnAddPrimarykey.Location = new System.Drawing.Point(522, 24);
             this.btnAddPrimarykey.Name = "btnAddPrimarykey";
             this.btnAddPrimarykey.Size = new System.Drawing.Size(75, 23);
             this.btnAddPrimarykey.TabIndex = 2;
@@ -213,7 +227,7 @@
             // 
             // txtClassName
             // 
-            this.txtClassName.Location = new System.Drawing.Point(345, 62);
+            this.txtClassName.Location = new System.Drawing.Point(326, 62);
             this.txtClassName.Name = "txtClassName";
             this.txtClassName.Size = new System.Drawing.Size(178, 21);
             this.txtClassName.TabIndex = 5;
@@ -221,7 +235,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(302, 66);
+            this.label3.Location = new System.Drawing.Point(283, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 5;
@@ -240,13 +254,13 @@
             // 
             this.txtnamespace.Location = new System.Drawing.Point(78, 63);
             this.txtnamespace.Name = "txtnamespace";
-            this.txtnamespace.Size = new System.Drawing.Size(209, 21);
+            this.txtnamespace.Size = new System.Drawing.Size(197, 21);
             this.txtnamespace.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(302, 29);
+            this.label1.Location = new System.Drawing.Point(283, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 2;
@@ -256,7 +270,7 @@
             // 
             this.cbPrimarykey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrimarykey.FormattingEnabled = true;
-            this.cbPrimarykey.Location = new System.Drawing.Point(345, 25);
+            this.cbPrimarykey.Location = new System.Drawing.Point(326, 25);
             this.cbPrimarykey.Name = "cbPrimarykey";
             this.cbPrimarykey.Size = new System.Drawing.Size(178, 20);
             this.cbPrimarykey.TabIndex = 1;
@@ -271,7 +285,7 @@
             this.gridColumns.Location = new System.Drawing.Point(3, 3);
             this.gridColumns.Name = "gridColumns";
             this.gridColumns.RowTemplate.Height = 23;
-            this.gridColumns.Size = new System.Drawing.Size(876, 222);
+            this.gridColumns.Size = new System.Drawing.Size(1013, 222);
             this.gridColumns.TabIndex = 0;
             // 
             // tp2
@@ -304,21 +318,23 @@
             this.imageList1.Images.SetKeyName(0, "pz.ICO");
             this.imageList1.Images.SetKeyName(1, "cs.ICO");
             // 
-            // cbAllTemp
+            // cbClearFix
             // 
-            this.cbAllTemp.AutoSize = true;
-            this.cbAllTemp.Location = new System.Drawing.Point(645, 65);
-            this.cbAllTemp.Name = "cbAllTemp";
-            this.cbAllTemp.Size = new System.Drawing.Size(72, 16);
-            this.cbAllTemp.TabIndex = 12;
-            this.cbAllTemp.Text = "所有模板";
-            this.cbAllTemp.UseVisualStyleBackColor = true;
+            this.cbClearFix.AutoSize = true;
+            this.cbClearFix.Checked = true;
+            this.cbClearFix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbClearFix.Location = new System.Drawing.Point(697, 64);
+            this.cbClearFix.Name = "cbClearFix";
+            this.cbClearFix.Size = new System.Drawing.Size(72, 16);
+            this.cbClearFix.TabIndex = 13;
+            this.cbClearFix.Text = "删除前缀";
+            this.cbClearFix.UseVisualStyleBackColor = true;
             // 
             // ContentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 665);
+            this.ClientSize = new System.Drawing.Size(1027, 665);
             this.Controls.Add(this.tabControl1);
             this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.Document;
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -365,5 +381,6 @@
         private System.Windows.Forms.Button btnSql;
         private System.Windows.Forms.Button btnCode;
         private System.Windows.Forms.CheckBox cbAllTemp;
+        private System.Windows.Forms.CheckBox cbClearFix;
     }
 }

@@ -215,6 +215,7 @@ namespace Dos.Tools
                 }
             }
             Dictionary<string, string> csList = new Dictionary<string, string>(), fsList = new Dictionary<string, string>();
+            string className = string.Join("_", txtClassName.Text.Split('_').Skip(cbClearFix.Checked ? 1 : 0));
             EntityBuilder builder = new EntityBuilder(TableName, txtnamespace.Text, txtClassName.Text, columns, IsView, cbToupperFrstword.Checked, ConnectionModel.DbType);
             if (cbAllTemp.Checked)
             {
@@ -223,15 +224,15 @@ namespace Dos.Tools
                     var tpl = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Template", item.ToString());
                     if (File.Exists(tpl)) fsList.Add(Path.GetFileNameWithoutExtension(tpl), FileHelper.Read(tpl));
                 }
-                foreach (var item in fsList) csList.Add(item.Key.Replace("AModel", ""), builder.Builder(item.Value, item.Key.Replace("AModel", "")));
+                foreach (var item in fsList) csList.Add(item.Key.Replace("AModel",className), builder.Builder(item.Value, item.Key.Replace("AModel", className)));
                 var filePath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Model");
                 if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
-                foreach (var item in csList) File.WriteAllText($"{filePath}/{TableName}{item.Key}.cs", item.Value);
+                foreach (var item in csList) File.WriteAllText($"{filePath}/{item.Key}.cs", item.Value);
                 if (MessageBox.Show("导出完成，导出文件在Model文件夹。是否打开文件夹？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Diagnostics.Process.Start("Explorer.exe", filePath);
             }
             else
             {
-                txtContent.Text = builder.Builder(tplContent.Text);
+                txtContent.Text = builder.Builder(tplContent.Text,className);
                 tabControl1.SelectedIndex = 1;
             }
         }
@@ -297,6 +298,16 @@ namespace Dos.Tools
                 txtContent.Text = builder.ToString();
                 tabControl1.SelectedIndex = 1;
             }
+        }
+
+        private void cbToupperFrstword_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbAllTemp_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
