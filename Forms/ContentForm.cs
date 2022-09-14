@@ -224,19 +224,18 @@ namespace Dos.Tools
                     var tpl = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Template", item.ToString());
                     if (File.Exists(tpl)) fsList.Add(Path.GetFileNameWithoutExtension(tpl), FileHelper.Read(tpl));
                 }
-                foreach (var item in fsList) csList.Add(item.Key.Replace("AModel",className), builder.Builder(item.Value, item.Key.Replace("AModel", className)));
+                foreach (var item in fsList) csList.Add(item.Key.Replace("Model", className), builder.Builder(item.Value, item.Key.Replace("Model", className)));
                 var filePath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Model");
                 if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
-                foreach (var item in csList) File.WriteAllText($"{filePath}/{item.Key}.cs", item.Value);
+                foreach (var item in csList) File.WriteAllText($"{filePath}/{Path.GetFileNameWithoutExtension(item.Key)}{(item.Key.Contains(".") ? Path.GetExtension(item.Key) : ".cs")}", item.Value);
                 if (MessageBox.Show("导出完成，导出文件在Model文件夹。是否打开文件夹？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Diagnostics.Process.Start("Explorer.exe", filePath);
             }
             else
             {
-                txtContent.Text = builder.Builder(tplContent.Text,className);
+                txtContent.Text = builder.Builder(tplContent.Text, className);
                 tabControl1.SelectedIndex = 1;
             }
         }
-
 
         /// <summary>
         /// 保存
@@ -270,34 +269,6 @@ namespace Dos.Tools
         {
             var tpl = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Template", (sender as ComboBox).SelectedItem.ToString());
             tplContent.Text = FileHelper.Read(tpl);
-        }
-
-        private void btnSql_Click(object sender, EventArgs e)
-        {
-            if (columnsdt != null && columnsdt.Columns.Count > 0)
-            {
-                var cols = new List<string>();
-                var key = cbPrimarykey.SelectedItem.ToString();
-                foreach (DataRow item in columnsdt.Rows) cols.Add(item["ColumnName"].ToString());
-                var del_cols = cols.Where(col => col.ToLower().Contains("delete") || col.ToLower().Contains("update") || col.ToLower().Contains("modify"));
-                string sql_drop = $"DROP TABLE {TableName}";
-                string sql_insert = $"INSERT INTO {TableName}({string.Join(",", cols)}) VALUES(@{string.Join(",@", cols)})";
-                string sql_update = $"UPDATE {TableName} SET {string.Join(",", cols.Select(col => $"{col}=@{col}"))} WHERE {key}=@{key}";
-                string sql_delete_fake = $"UPDATE {TableName} SET {string.Join(",", del_cols.Select(col => $"{col}=@{col}"))} IsDelete=1 WHERE {key}=@{key}";
-                string sql_delete = $"DELETE FROM {TableName} WHERE {key}=@{key}";
-                //生成T-SQL页面
-                StringBuilder builder = new StringBuilder();
-                builder.AppendLine($"--删除{TableName}表\n{sql_drop}\n");
-
-                builder.AppendLine($"--插入{TableName}表数据\n{sql_insert}\n");
-                builder.AppendLine($"--更新{TableName}表数据\n{sql_update}\n");
-                builder.AppendLine($"--假删除{TableName}表数据\n{sql_delete_fake}\n");
-
-                builder.AppendLine($"--删除{TableName}表数据\n{sql_delete}\n");
-
-                txtContent.Text = builder.ToString();
-                tabControl1.SelectedIndex = 1;
-            }
         }
 
         private void cbToupperFrstword_CheckedChanged(object sender, EventArgs e)

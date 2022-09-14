@@ -36,9 +36,9 @@
             this.contextMenuStripSave = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbClearFix = new System.Windows.Forms.CheckBox();
             this.cbAllTemp = new System.Windows.Forms.CheckBox();
             this.btnCode = new System.Windows.Forms.Button();
-            this.btnSql = new System.Windows.Forms.Button();
             this.tplComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbToupperFrstword = new System.Windows.Forms.CheckBox();
@@ -55,7 +55,6 @@
             this.txtContent = new System.Windows.Forms.RichTextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveEntity = new System.Windows.Forms.SaveFileDialog();
-            this.cbClearFix = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tp1.SuspendLayout();
             this.contextMenuStripSave.SuspendLayout();
@@ -124,7 +123,6 @@
             this.groupBox1.Controls.Add(this.cbClearFix);
             this.groupBox1.Controls.Add(this.cbAllTemp);
             this.groupBox1.Controls.Add(this.btnCode);
-            this.groupBox1.Controls.Add(this.btnSql);
             this.groupBox1.Controls.Add(this.tplComboBox);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.cbToupperFrstword);
@@ -144,10 +142,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "生成配置";
             // 
+            // cbClearFix
+            // 
+            this.cbClearFix.AutoSize = true;
+            this.cbClearFix.Checked = true;
+            this.cbClearFix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbClearFix.Location = new System.Drawing.Point(702, 63);
+            this.cbClearFix.Name = "cbClearFix";
+            this.cbClearFix.Size = new System.Drawing.Size(72, 16);
+            this.cbClearFix.TabIndex = 13;
+            this.cbClearFix.Text = "删除前缀";
+            this.cbClearFix.UseVisualStyleBackColor = true;
+            // 
             // cbAllTemp
             // 
             this.cbAllTemp.AutoSize = true;
-            this.cbAllTemp.Location = new System.Drawing.Point(611, 64);
+            this.cbAllTemp.Location = new System.Drawing.Point(615, 65);
             this.cbAllTemp.Name = "cbAllTemp";
             this.cbAllTemp.Size = new System.Drawing.Size(72, 16);
             this.cbAllTemp.TabIndex = 12;
@@ -157,23 +167,13 @@
             // 
             // btnCode
             // 
-            this.btnCode.Location = new System.Drawing.Point(777, 24);
+            this.btnCode.Location = new System.Drawing.Point(699, 25);
             this.btnCode.Name = "btnCode";
             this.btnCode.Size = new System.Drawing.Size(78, 23);
             this.btnCode.TabIndex = 11;
             this.btnCode.Text = "生成代码";
             this.btnCode.UseVisualStyleBackColor = true;
             this.btnCode.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnSql
-            // 
-            this.btnSql.Location = new System.Drawing.Point(693, 24);
-            this.btnSql.Name = "btnSql";
-            this.btnSql.Size = new System.Drawing.Size(78, 23);
-            this.btnSql.TabIndex = 10;
-            this.btnSql.Text = "生成SQL";
-            this.btnSql.UseVisualStyleBackColor = true;
-            this.btnSql.Click += new System.EventHandler(this.btnSql_Click);
             // 
             // tplComboBox
             // 
@@ -197,7 +197,7 @@
             // cbToupperFrstword
             // 
             this.cbToupperFrstword.AutoSize = true;
-            this.cbToupperFrstword.Location = new System.Drawing.Point(518, 65);
+            this.cbToupperFrstword.Location = new System.Drawing.Point(521, 65);
             this.cbToupperFrstword.Name = "cbToupperFrstword";
             this.cbToupperFrstword.Size = new System.Drawing.Size(84, 16);
             this.cbToupperFrstword.TabIndex = 6;
@@ -207,7 +207,7 @@
             // 
             // btnRemovePrimarykey
             // 
-            this.btnRemovePrimarykey.Location = new System.Drawing.Point(608, 24);
+            this.btnRemovePrimarykey.Location = new System.Drawing.Point(612, 24);
             this.btnRemovePrimarykey.Name = "btnRemovePrimarykey";
             this.btnRemovePrimarykey.Size = new System.Drawing.Size(75, 23);
             this.btnRemovePrimarykey.TabIndex = 3;
@@ -295,7 +295,7 @@
             this.tp2.Location = new System.Drawing.Point(4, 4);
             this.tp2.Name = "tp2";
             this.tp2.Padding = new System.Windows.Forms.Padding(3);
-            this.tp2.Size = new System.Drawing.Size(882, 638);
+            this.tp2.Size = new System.Drawing.Size(1019, 638);
             this.tp2.TabIndex = 1;
             this.tp2.Text = "生成代码";
             this.tp2.UseVisualStyleBackColor = true;
@@ -307,7 +307,7 @@
             this.txtContent.Location = new System.Drawing.Point(3, 3);
             this.txtContent.Margin = new System.Windows.Forms.Padding(0);
             this.txtContent.Name = "txtContent";
-            this.txtContent.Size = new System.Drawing.Size(876, 632);
+            this.txtContent.Size = new System.Drawing.Size(1013, 632);
             this.txtContent.TabIndex = 0;
             this.txtContent.Text = "";
             // 
@@ -317,18 +317,6 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "pz.ICO");
             this.imageList1.Images.SetKeyName(1, "cs.ICO");
-            // 
-            // cbClearFix
-            // 
-            this.cbClearFix.AutoSize = true;
-            this.cbClearFix.Checked = true;
-            this.cbClearFix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbClearFix.Location = new System.Drawing.Point(697, 64);
-            this.cbClearFix.Name = "cbClearFix";
-            this.cbClearFix.Size = new System.Drawing.Size(72, 16);
-            this.cbClearFix.TabIndex = 13;
-            this.cbClearFix.Text = "删除前缀";
-            this.cbClearFix.UseVisualStyleBackColor = true;
             // 
             // ContentForm
             // 
@@ -378,7 +366,6 @@
         private System.Windows.Forms.RichTextBox tplContent;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox tplComboBox;
-        private System.Windows.Forms.Button btnSql;
         private System.Windows.Forms.Button btnCode;
         private System.Windows.Forms.CheckBox cbAllTemp;
         private System.Windows.Forms.CheckBox cbClearFix;
