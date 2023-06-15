@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using Dos.Tools.Model;
 using System.Data;
+using System.Reflection;
 
 namespace Dos.Tools
 {
@@ -418,6 +419,21 @@ namespace Dos.Tools
                 //}
             }
             return result.ToString();
+        }
+
+        /// <summary>
+        /// 克隆对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static T Clone<T>(T model) where T : class
+        {
+            if (model == null) return null;
+            T modelN = Activator.CreateInstance<T>();//创建泛型对象
+            PropertyInfo[] tPros = modelN.GetType().GetProperties();
+            foreach (var item in tPros) item.SetValue(modelN, item.GetValue(model));
+            return modelN;
         }
     }
 }
