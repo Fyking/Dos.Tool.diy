@@ -1,12 +1,15 @@
 ﻿namespace Dos.DbObjects.SQL2005
 {
-    
+    using Dos.Common;
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
     using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using static System.Net.Mime.MediaTypeNames;
 
     public class DbObject : IDbObject
     {
@@ -160,7 +163,7 @@
             builder.Append("Modify_Date=O.Modify_date, ");
             builder.Append("cisNull=CASE WHEN C.is_nullable=1 THEN N'√'ELSE N'' END, ");
             builder.Append("defaultVal=ISNULL(D.definition,N'') ");
-            
+
             builder.Append("FROM sys.columns C ");
             builder.Append("INNER JOIN sys.objects O ");
             builder.Append("ON C.[object_id]=O.[object_id] ");
@@ -210,7 +213,115 @@
             builder.Append("AND C.column_id=IDX.column_id  ");
             builder.Append("WHERE O.name=N'" + TableName + "' ) as t ");
             builder.Append("ORDER BY colorder,ColumnName  ");
+            DataTable dataTable = this.Query(DbName, builder.ToString()).Tables[0];
+            DataTable dataTableView = this.GetColumnViewInfoList(DbName, TableName);
+            //string strSql = this.GetViewSql(DbName, TableName);//查询视图SQL结构分析真实对应字段
+            Dictionary<string, string> deTexts = new Dictionary<string, string>();
+            foreach (DataRow item in dataTableView.Rows)
+            {
+                string name = item["ColumnName"].ToString();
+                string deText = item["deText"].ToString();
+                if (!string.IsNullOrEmpty(deText) && !deTexts.ContainsKey(item["ColumnName"].ToString())) deTexts.Add(name, deText);
+            }
+            foreach (DataRow item in dataTable.Rows)
+            {
+                string name = item["ColumnName"].ToString();
+                if (deTexts.ContainsKey(name)) item["deText"] = deTexts[name];
+            }
+            return dataTable;
+        }
+
+        public DataTable GetColumnViewInfoList(string DbName, string TableName)
+        {
+            if (this.isdbosp)
+            {
+                return this.GetColumnInfoListSP(DbName, TableName);
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.Append("SELECT distinct * from (select ");
+            builder.Append("colorder=C.column_id,");
+            builder.Append("ColumnName=C.name,");
+
+            builder.Append("deText=ISNULL(PFD.[value],N''),");
+            builder.Append("TypeName=T.name, ");
+            builder.Append("Length=C.max_length, ");
+            builder.Append("Preci=C.precision, ");
+            builder.Append("Scale=C.scale, ");
+            builder.Append("IsIdentity=CASE WHEN C.is_identity=1 THEN N'√'ELSE N'' END,");
+            builder.Append("isPK=ISNULL(IDX.PrimaryKey,N''),");
+            builder.Append("Computed=CASE WHEN C.is_computed=1 THEN N'√'ELSE N'' END, ");
+            builder.Append("IndexName=ISNULL(IDX.IndexName,N''), ");
+            builder.Append("IndexSort=ISNULL(IDX.Sort,N''), ");
+            builder.Append("Create_Date=O.Create_Date, ");
+            builder.Append("Modify_Date=O.Modify_date, ");
+            builder.Append("cisNull=CASE WHEN C.is_nullable=1 THEN N'√'ELSE N'' END, ");
+            builder.Append("defaultVal=ISNULL(D.definition,N'') ");
+
+            builder.Append("FROM sys.sql_expression_dependencies ed ");
+            builder.Append("INNER JOIN sys.objects O ON ed.[referenced_id]=O.[object_id] AND O.type IN('U','V') AND O.is_ms_shipped=0 ");
+            builder.Append("INNER JOIN sys.columns C ON C.[object_id]=O.[object_id] ");
+            builder.Append("AND (O.type='U' or O.type='V') ");
+            builder.Append("AND O.is_ms_shipped=0 ");
+            builder.Append("INNER JOIN sys.types T ");
+            builder.Append("ON C.user_type_id=T.user_type_id ");
+            builder.Append("LEFT JOIN sys.default_constraints D ");
+            builder.Append("ON C.[object_id]=D.parent_object_id ");
+            builder.Append("AND C.column_id=D.parent_column_id ");
+            builder.Append("AND C.default_object_id=D.[object_id] ");
+            builder.Append("LEFT JOIN sys.extended_properties PFD ");
+            builder.Append("ON PFD.class=1  ");
+            builder.Append("AND C.[object_id]=PFD.major_id  ");
+            builder.Append("AND C.column_id=PFD.minor_id ");
+            builder.Append("LEFT JOIN sys.extended_properties PTB ");
+            builder.Append("ON PTB.class=1 ");
+            builder.Append("AND PTB.minor_id=0  ");
+            builder.Append("AND C.[object_id]=PTB.major_id ");
+            builder.Append("LEFT JOIN ");
+            builder.Append("( ");
+            builder.Append("SELECT  ");
+            builder.Append("IDXC.[object_id], ");
+            builder.Append("IDXC.column_id, ");
+            builder.Append("Sort=CASE INDEXKEY_PROPERTY(IDXC.[object_id],IDXC.index_id,IDXC.index_column_id,'IsDescending') ");
+            builder.Append("WHEN 1 THEN 'DESC' WHEN 0 THEN 'ASC' ELSE '' END, ");
+            builder.Append("PrimaryKey=CASE WHEN IDX.is_primary_key=1 THEN N'√'ELSE N'' END, ");
+            builder.Append("IndexName=IDX.Name ");
+            builder.Append("FROM sys.indexes IDX ");
+            builder.Append("INNER JOIN sys.index_columns IDXC ");
+            builder.Append("ON IDX.[object_id]=IDXC.[object_id] ");
+            builder.Append("AND IDX.index_id=IDXC.index_id ");
+            builder.Append("LEFT JOIN sys.key_constraints KC ");
+            builder.Append("ON IDX.[object_id]=KC.[parent_object_id] ");
+            builder.Append("AND IDX.index_id=KC.unique_index_id ");
+            builder.Append("INNER JOIN  ");
+            builder.Append("( ");
+            builder.Append("SELECT [object_id], Column_id, index_id=MIN(index_id) ");
+            builder.Append("FROM sys.index_columns ");
+            builder.Append("GROUP BY [object_id], Column_id ");
+            builder.Append(") IDXCUQ ");
+            builder.Append("ON IDXC.[object_id]=IDXCUQ.[object_id] ");
+            builder.Append("AND IDXC.Column_id=IDXCUQ.Column_id ");
+            builder.Append("AND IDXC.index_id=IDXCUQ.index_id ");
+            builder.Append(") IDX ");
+            builder.Append("ON C.[object_id]=IDX.[object_id] ");
+            builder.Append("AND C.column_id=IDX.column_id  ");
+            builder.Append("WHERE OBJECT_NAME(ed.referencing_id)=N'" + TableName + "' ) as t ");
+            builder.Append("ORDER BY colorder,ColumnName  ");
             return this.Query(DbName, builder.ToString()).Tables[0];
+        }
+
+        /// <summary>
+        /// 查询视图/存储过程
+        /// </summary>
+        /// <param name="DbName"></param>
+        /// <param name="TableName"></param>
+        /// <returns></returns>
+        public string GetViewSql(string DbName, string TableName)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append($"SELECT TOP 1 [text] FROM sys.syscomments WHERE id = OBJECT_ID('{TableName}') AND colid = 1;");
+            DataTable dataTable = this.Query(DbName, builder.ToString()).Tables[0];
+            if (dataTable != null && dataTable.Rows.Count > 0) return dataTable.Rows[0]["text"].ToString();
+            return "";
         }
 
         public DataTable GetColumnInfoListSP(string DbName, string TableName)
@@ -543,7 +654,7 @@
         }
 
         private bool IsDboSp()
-        {           
+        {
             return this.isdbosp;
         }
 
