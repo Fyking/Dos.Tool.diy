@@ -187,12 +187,12 @@ namespace Dos.Tools
         {
             if (string.IsNullOrEmpty(txtnamespace.Text))
             {
-                MessageBox.Show("命名空间不能为空!");
+                MessageBox.Show("命名空间不能为空!","提示");
                 return;
             }
             if (string.IsNullOrEmpty(txtClassName.Text))
             {
-                MessageBox.Show("类名不能为空!");
+                MessageBox.Show("类名不能为空!", "提示");
                 return;
             }
 
