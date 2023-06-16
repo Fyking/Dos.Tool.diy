@@ -110,7 +110,7 @@ namespace Dos.Tools
         /// </summary>
         /// <param name="tplContent">模板文件的内容</param>
         /// <returns></returns>
-        public string Builder(string tplContent, string keyName = "")
+        public string Builder(string tplContent, string BusinessName = "", string keyName = "")
         {
             List<ColumnInfo> CsColumns = DbToCS.DbtoCSColumns(Columns, DbType);
             if (!string.IsNullOrWhiteSpace(tplContent))
@@ -148,6 +148,7 @@ namespace Dos.Tools
                     NameSpace = NameSpace,
                     PrimaryKeyColumns = primarykeyColumns,
                     IdentityColumn = identityColumn,
+                    BusinessName = BusinessName,
                     i1 = 1,
                     i2 = 1,
                     i3 = 1

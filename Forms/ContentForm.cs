@@ -216,15 +216,18 @@ namespace Dos.Tools
             }
             Dictionary<string, string> csList = new Dictionary<string, string>(), fsList = new Dictionary<string, string>();
             string className = string.Join("_", txtClassName.Text.Split('_').Skip(cbClearFix.Checked ? 1 : 0));
-            EntityBuilder builder = new EntityBuilder(TableName, txtnamespace.Text, txtClassName.Text, columns, IsView, cbToupperFrstword.Checked, ConnectionModel.DbType);
+            string businessName = txtLogic.Text, nameSpace = txtnamespace.Text;
+            EntityBuilder builder = new EntityBuilder(TableName, nameSpace, txtClassName.Text, columns, IsView, cbToupperFrstword.Checked, ConnectionModel.DbType);
             if (cbAllTemp.Checked)
             {
+                if (string.IsNullOrEmpty(businessName)) { MessageBox.Show("请输入业务名"); return; }
+                if (string.IsNullOrEmpty(nameSpace)) { MessageBox.Show("请输入业务名"); return; }
                 foreach (var item in tplComboBox.Items)
                 {
                     var tpl = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Template", item.ToString());
                     if (File.Exists(tpl)) fsList.Add(Path.GetFileNameWithoutExtension(tpl), FileHelper.Read(tpl));
                 }
-                foreach (var item in fsList) csList.Add(item.Key.Replace("Model", className), builder.Builder(item.Value, item.Key.Replace("Model", className)));
+                foreach (var item in fsList) csList.Add(item.Key.Replace("Model", className), builder.Builder(item.Value, businessName, item.Key.Replace("Model", className)));
                 var filePath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Model");
                 if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
                 foreach (var item in csList) File.WriteAllText($"{filePath}/{Path.GetFileNameWithoutExtension(item.Key)}{(item.Key.Contains(".") ? Path.GetExtension(item.Key) : ".cs")}", item.Value);
@@ -232,7 +235,7 @@ namespace Dos.Tools
             }
             else
             {
-                txtContent.Text = builder.Builder(tplContent.Text, className);
+                txtContent.Text = builder.Builder(tplContent.Text, businessName, className);
                 tabControl1.SelectedIndex = 1;
             }
         }

@@ -55,6 +55,8 @@
             this.txtContent = new System.Windows.Forms.RichTextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveEntity = new System.Windows.Forms.SaveFileDialog();
+            this.txtLogic = new System.Windows.Forms.TextBox();
+            this.lblLogic = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tp1.SuspendLayout();
             this.contextMenuStripSave.SuspendLayout();
@@ -120,6 +122,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtLogic);
+            this.groupBox1.Controls.Add(this.lblLogic);
             this.groupBox1.Controls.Add(this.cbClearFix);
             this.groupBox1.Controls.Add(this.cbAllTemp);
             this.groupBox1.Controls.Add(this.btnCode);
@@ -147,7 +151,7 @@
             this.cbClearFix.AutoSize = true;
             this.cbClearFix.Checked = true;
             this.cbClearFix.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbClearFix.Location = new System.Drawing.Point(702, 63);
+            this.cbClearFix.Location = new System.Drawing.Point(792, 25);
             this.cbClearFix.Name = "cbClearFix";
             this.cbClearFix.Size = new System.Drawing.Size(72, 16);
             this.cbClearFix.TabIndex = 13;
@@ -157,7 +161,7 @@
             // cbAllTemp
             // 
             this.cbAllTemp.AutoSize = true;
-            this.cbAllTemp.Location = new System.Drawing.Point(615, 65);
+            this.cbAllTemp.Location = new System.Drawing.Point(792, 67);
             this.cbAllTemp.Name = "cbAllTemp";
             this.cbAllTemp.Size = new System.Drawing.Size(72, 16);
             this.cbAllTemp.TabIndex = 12;
@@ -167,7 +171,7 @@
             // 
             // btnCode
             // 
-            this.btnCode.Location = new System.Drawing.Point(699, 25);
+            this.btnCode.Location = new System.Drawing.Point(692, 24);
             this.btnCode.Name = "btnCode";
             this.btnCode.Size = new System.Drawing.Size(78, 23);
             this.btnCode.TabIndex = 11;
@@ -197,7 +201,7 @@
             // cbToupperFrstword
             // 
             this.cbToupperFrstword.AutoSize = true;
-            this.cbToupperFrstword.Location = new System.Drawing.Point(521, 65);
+            this.cbToupperFrstword.Location = new System.Drawing.Point(792, 47);
             this.cbToupperFrstword.Name = "cbToupperFrstword";
             this.cbToupperFrstword.Size = new System.Drawing.Size(84, 16);
             this.cbToupperFrstword.TabIndex = 6;
@@ -207,7 +211,7 @@
             // 
             // btnRemovePrimarykey
             // 
-            this.btnRemovePrimarykey.Location = new System.Drawing.Point(612, 24);
+            this.btnRemovePrimarykey.Location = new System.Drawing.Point(605, 23);
             this.btnRemovePrimarykey.Name = "btnRemovePrimarykey";
             this.btnRemovePrimarykey.Size = new System.Drawing.Size(75, 23);
             this.btnRemovePrimarykey.TabIndex = 3;
@@ -217,7 +221,7 @@
             // 
             // btnAddPrimarykey
             // 
-            this.btnAddPrimarykey.Location = new System.Drawing.Point(522, 24);
+            this.btnAddPrimarykey.Location = new System.Drawing.Point(515, 23);
             this.btnAddPrimarykey.Name = "btnAddPrimarykey";
             this.btnAddPrimarykey.Size = new System.Drawing.Size(75, 23);
             this.btnAddPrimarykey.TabIndex = 2;
@@ -318,6 +322,22 @@
             this.imageList1.Images.SetKeyName(0, "pz.ICO");
             this.imageList1.Images.SetKeyName(1, "cs.ICO");
             // 
+            // txtLogic
+            // 
+            this.txtLogic.Location = new System.Drawing.Point(562, 62);
+            this.txtLogic.Name = "txtLogic";
+            this.txtLogic.Size = new System.Drawing.Size(207, 21);
+            this.txtLogic.TabIndex = 14;
+            // 
+            // lblLogic
+            // 
+            this.lblLogic.AutoSize = true;
+            this.lblLogic.Location = new System.Drawing.Point(513, 66);
+            this.lblLogic.Name = "lblLogic";
+            this.lblLogic.Size = new System.Drawing.Size(53, 12);
+            this.lblLogic.TabIndex = 15;
+            this.lblLogic.Text = "业务名：";
+            // 
             // ContentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -369,5 +389,7 @@
         private System.Windows.Forms.Button btnCode;
         private System.Windows.Forms.CheckBox cbAllTemp;
         private System.Windows.Forms.CheckBox cbClearFix;
+        private System.Windows.Forms.TextBox txtLogic;
+        private System.Windows.Forms.Label lblLogic;
     }
 }
