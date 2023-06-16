@@ -220,8 +220,8 @@ namespace Dos.Tools
             EntityBuilder builder = new EntityBuilder(TableName, nameSpace, txtClassName.Text, columns, IsView, cbToupperFrstword.Checked, ConnectionModel.DbType);
             if (cbAllTemp.Checked)
             {
-                if (string.IsNullOrEmpty(businessName)) { MessageBox.Show("请输入业务名"); return; }
-                if (string.IsNullOrEmpty(nameSpace)) { MessageBox.Show("请输入业务名"); return; }
+                if (string.IsNullOrEmpty(businessName)) { MessageBox.Show("请输入业务名", "提示"); return; }
+                if (string.IsNullOrEmpty(nameSpace)) { MessageBox.Show("请输入业务名", "提示"); return; }
                 foreach (var item in tplComboBox.Items)
                 {
                     var tpl = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Template", item.ToString());
